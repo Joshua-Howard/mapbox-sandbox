@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import interfaceReducer from './interfaceReducer';
+import mapboxReducer from './mapboxReducer';
 
 const reducers = combineReducers({
-  interface: interfaceReducer
+  mapbox: mapboxReducer
 });
 
 export default reducers;
