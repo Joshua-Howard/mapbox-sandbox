@@ -1,6 +1,7 @@
+/* eslint-disable import/prefer-default-export */
 import * as types from './actionTypes';
 
-export const incrementPlaceholder = value => ({
-  type: types.INCREMENT_PLACEHOLDER,
-  payload: value
+export const storeCoordinates = coordinates => ({
+  type: types.STORE_COORDINATES,
+  payload: coordinates
 });

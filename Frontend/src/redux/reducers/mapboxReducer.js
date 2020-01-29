@@ -7,17 +7,17 @@ const initialState = {
 };
 
 const mapboxReducer = (state = initialState, action) => {
-  // let placeholder;
-
   switch (action.type) {
-    // case types.INCREMENT_PLACEHOLDER:
-    //   placeholder = state.placeholder + 1;
-    //   console.log(placeholder, 'Placeholder State', action.payload, 'Payload');
+    case types.STORE_COORDINATES: {
+      const { longitude, latitude, zoom } = action.payload;
 
-    //   return {
-    //     ...state,
-    //     placeholder
-    //   };
+      return {
+        ...state,
+        longitude,
+        latitude,
+        zoom
+      };
+    }
 
     default:
       return state;

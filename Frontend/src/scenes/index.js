@@ -14,14 +14,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   // Functions that dispatch action creators
-  incrementPlaceholder: value => dispatch(actions.incrementPlaceholder(value))
+  storeCoordinates: coordinates =>
+    dispatch(actions.storeCoordinates(coordinates))
 });
 
 // Mapbox
 mapboxgl.accessToken =
   'pk.eyJ1Ijoiam9zaHVhaG93YXJkIiwiYSI6ImNrNXloNXNiMTJnc2IzbW9uMmE3ajB5eDUifQ.nvs5M3t7fL-pOYPlpvMJpA';
 
-const Scenes = ({ longitude, latitude, zoom }) => {
+const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
   // Mapbox 'container' must be a String or HTMLElement
   let mapContainer;
 
@@ -33,15 +34,37 @@ const Scenes = ({ longitude, latitude, zoom }) => {
       center: [longitude, latitude],
       zoom
     });
-  });
+
+    map.on('move', () => {
+      const coordinatesObject = {};
+
+      coordinatesObject.longitude = map.getCenter().lng.toFixed(4);
+      coordinatesObject.latitude = map.getCenter().lat.toFixed(4);
+      coordinatesObject.zoom = map.getZoom().toFixed(2);
+
+      storeCoordinates(coordinatesObject);
+    });
+  }, []);
 
   return (
-    <div
-      ref={el => {
-        mapContainer = el;
-      }}
-      className="mapContainer"
-    />
+    <div>
+      <div className="sidebarStyle">
+        Longitude:
+        {` ${longitude} `}
+        {' | '}
+        Latitude:
+        {` ${latitude} `}
+        {' | '}
+        Zoom:
+        {` ${zoom} `}
+      </div>
+      <div
+        ref={el => {
+          mapContainer = el;
+        }}
+        className="mapContainer"
+      />
+    </div>
   );
 };
 
