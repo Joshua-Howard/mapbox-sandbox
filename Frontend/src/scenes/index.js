@@ -5,8 +5,8 @@ import mapboxgl from 'mapbox-gl';
 import './mapbox.sass';
 
 import * as actions from '../redux/actions/actions';
-import heatmapSource from './data/heatmapSource';
 import geoJSONGenerator from './geojsonGenerator';
+// import heatmapSource from './data/heatmapSource';
 // import heatmapSampleData from './data/heatmapSampleData';
 
 const mapStateToProps = state => ({
@@ -30,6 +30,19 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
   let mapContainer;
 
   useEffect(() => {
+    window
+      .fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
+      .then(res =>
+        res.json().then(res => {
+          // Can alternatively import and use 'heatmapSource' instead of using fetch response data
+          const heatmapData = geoJSONGenerator(res);
+
+          mapbox(heatmapData);
+        })
+      );
+  }, []);
+
+  const mapbox = heatmapData => {
     const map = new mapboxgl.Map({
       container: mapContainer,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -48,7 +61,7 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
     });
 
     map.on('load', () => {
-      const heatmapData = geoJSONGenerator(heatmapSource);
+      // const heatmapData = geoJSONGenerator(heatmapSource);
 
       map.addSource('complaints', {
         type: 'geojson',
@@ -160,7 +173,7 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
         'waterway-label'
       );
     });
-  }, []);
+  };
 
   return (
     <div>
