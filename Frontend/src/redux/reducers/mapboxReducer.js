@@ -1,9 +1,9 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-  longitude: -73.948,
-  latitude: 40.705,
-  zoom: 8.78
+  longitude: -73.908,
+  latitude: 40.744,
+  zoom: 10.27
 };
 
 const mapboxReducer = (state = initialState, action) => {

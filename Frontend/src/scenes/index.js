@@ -29,20 +29,7 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
   // Mapbox 'container' must be a String or HTMLElement
   let mapContainer;
 
-  useEffect(() => {
-    window
-      .fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
-      .then(res =>
-        res.json().then(res => {
-          // Can alternatively import and use 'heatmapSource' instead of using fetch response data
-          const heatmapData = geoJSONGenerator(res);
-
-          mapbox(heatmapData);
-        })
-      );
-  }, []);
-
-  const mapbox = heatmapData => {
+  const mapbox = (heatmapData, iconCoordinates) => {
     const map = new mapboxgl.Map({
       container: mapContainer,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -62,6 +49,41 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
 
     map.on('load', () => {
       // const heatmapData = geoJSONGenerator(heatmapSource);
+
+      map.loadImage(
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Home-icon.svg/500px-Home-icon.svg.png',
+        (error, image) => {
+          if (error) throw error;
+
+          map.addImage('locationIcon', image);
+
+          map.addSource('locationIconPoint', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: iconCoordinates
+                  }
+                }
+              ]
+            }
+          });
+
+          map.addLayer({
+            id: 'locationIcon',
+            type: 'symbol',
+            source: 'locationIconPoint',
+            layout: {
+              'icon-image': 'locationIcon',
+              'icon-size': 0.1
+            }
+          });
+        }
+      );
 
       map.addSource('complaints', {
         type: 'geojson',
@@ -174,6 +196,21 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
       );
     });
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    window
+      .fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
+      .then(res =>
+        res.json().then(data => {
+          // Can alternatively import and use 'heatmapSource' instead of using fetch response data
+          const heatmapData = geoJSONGenerator(data);
+          const iconCoordinates = [-73.986, 40.758];
+
+          mapbox(heatmapData, iconCoordinates);
+        })
+      );
+  }, []);
 
   return (
     <div>
