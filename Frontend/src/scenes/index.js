@@ -201,15 +201,14 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
     // eslint-disable-next-line no-undef
     window
       .fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
-      .then(res =>
-        res.json().then(data => {
-          // Can alternatively import and use 'heatmapSource' instead of using fetch response data
-          const heatmapData = geoJSONGenerator(data);
-          const iconCoordinates = [-73.986, 40.758];
+      .then(res => res.json())
+      .then(data => {
+        // Can alternatively import and use 'heatmapSource' instead of using fetch response data
+        const heatmapData = geoJSONGenerator(data);
+        const iconCoordinates = [-73.986, 40.758];
 
-          mapbox(heatmapData, iconCoordinates);
-        })
-      );
+        mapbox(heatmapData, iconCoordinates);
+      });
   }, []);
 
   return (
