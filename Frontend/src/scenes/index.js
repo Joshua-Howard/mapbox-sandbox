@@ -197,7 +197,7 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
     });
   };
 
-  const [test, setTest] = useState(true);
+  const [dismountCount, setDismountCount] = useState(0);
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -212,12 +212,17 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
         mapbox(heatmapData, iconCoordinates);
       });
 
+    // Comment out here to the end of the return function to see the behavior without state updates
     const changeComponentState = setInterval(() => {
-      setTest(prevValue => !prevValue), console.log(test);
+      setDismountCount(count => count + 1);
+      console.log('State Updated', dismountCount);
     }, 4000);
 
-    return () => clearInterval(changeComponentState);
-  }, [test]);
+    return () => {
+      clearInterval(changeComponentState);
+      console.log('Component Dismount', dismountCount);
+    };
+  }, [dismountCount]);
 
   return (
     <div>
