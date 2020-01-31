@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 // Mapbox
 import mapboxgl from 'mapbox-gl';
@@ -197,6 +197,8 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
     });
   };
 
+  const [test, setTest] = useState(true);
+
   useEffect(() => {
     // eslint-disable-next-line no-undef
     window
@@ -209,7 +211,13 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
 
         mapbox(heatmapData, iconCoordinates);
       });
-  }, []);
+
+    const changeComponentState = setInterval(() => {
+      setTest(prevValue => !prevValue), console.log(test);
+    }, 4000);
+
+    return () => clearInterval(changeComponentState);
+  }, [test]);
 
   return (
     <div>
