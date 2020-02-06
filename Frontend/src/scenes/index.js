@@ -9,6 +9,8 @@ import geoJSONGenerator from './geojsonGenerator';
 // import heatmapSource from './data/heatmapSource';
 // import heatmapSampleData from './data/heatmapSampleData';
 
+import Child1 from './child1';
+
 const mapStateToProps = state => ({
   longitude: state.mapbox.longitude,
   latitude: state.mapbox.latitude,
@@ -235,6 +237,9 @@ const Scenes = ({ longitude, latitude, zoom, storeCoordinates }) => {
         {' | '}
         Zoom:
         {` ${zoom} `}
+      </div>
+      <div className="sidebarStyle" style={{ top: '100px' }}>
+        <Child1 testProp={dismountCount} />
       </div>
       <div
         ref={el => {
