@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import reactime from 'reactime';
 import App from './app';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const rootContainer = document.getElementById('root');
+
+ReactDOM.render(<App />, rootContainer);
+
+reactime(rootContainer);
