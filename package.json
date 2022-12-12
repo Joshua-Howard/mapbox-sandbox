@@ -27,7 +27,7 @@
   "homepage": "https://github.com/Joshua-Howard/mapbox-sandbox#readme",
   "dependencies": {
     "bootstrap": "^4.4.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mapbox-gl": "^1.7.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
